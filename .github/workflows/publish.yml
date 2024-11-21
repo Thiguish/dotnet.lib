@@ -17,6 +17,12 @@ jobs:
         with:
           dotnet-version: '8.x'
 
+      # Build and Publish
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
       # GitVersion setup
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v3.0.3
@@ -28,13 +34,16 @@ jobs:
         with:
           useConfigFile: true
           configFilePath: ./GitVersion.yml
-
-      # Build and Publish
-      - name: Install dependencies
-        run: dotnet restore
-      - name: Build
-        run: dotnet build --configuration Release --no-restore
       - name: Pack
         run: dotnet pack --configuration Release /p:Version=${{ steps.gitversion.outputs.SemVer}} --no-build --output ./nupkg
       - name: Publish
         run: dotnet nuget push ./nupkg/*.nupkg --source https://nuget.pkg.github.com/Thiguish/index.json --api-key ${{ secrets.NUGET_TOKEN }}
+
+      - name: Increment version and tag
+        run: |
+          VERSION=$(gitversion | jq -r '.SemVer')
+          echo "New version: $VERSION"
+
+          # Crea un tag con la nueva versión
+          git tag "v$VERSION"
+          git push origin "v$VERSION"
