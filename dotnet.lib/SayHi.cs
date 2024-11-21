@@ -24,5 +24,10 @@ public class SayHi
     {
         return $"Buenos dias {nombre}!";
     }
+
+    public static string SayGoodMorning(string nombre)
+    {
+        return $"Good morning {nombre}!";
+    }
 }
 
