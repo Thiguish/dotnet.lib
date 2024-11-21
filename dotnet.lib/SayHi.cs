@@ -29,5 +29,10 @@ public class SayHi
     {
         return $"Good morning {nombre}!";
     }
+
+    public static string DiBonaNit(string nombre)
+    {
+        return $"Bona nit {nombre}!";
+    }
 }
 
