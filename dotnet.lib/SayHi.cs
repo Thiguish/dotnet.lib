@@ -19,5 +19,10 @@ public class SayHi
     {
         return $"Bon dia {nombre}!";
     }
+
+    public static string DiBuenosDias(string nombre)
+    {
+        return $"Buenos dias {nombre}!";
+    }
 }
 
