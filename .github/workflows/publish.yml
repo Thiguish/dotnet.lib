@@ -43,7 +43,7 @@ jobs:
 
       - name: Increment version and tag
         run: |
-          VERSION=$(gitversion | jq -r '.SemVer')
+          VERSION=${{ steps.gitversion.outputs.SemVer}}
           echo "New version: $VERSION"
 
           # Crea un tag con la nueva versión
