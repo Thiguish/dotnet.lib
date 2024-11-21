@@ -6,9 +6,14 @@ public class SayHi
     {
     }
 
-    public static string SayHello(string nombre)
+    public static string DiHola(string nombre)
     {
         return $"Hola, {nombre}!";
+    }
+
+    public static string SayHello(string nombre)
+    {
+        return $"Hi, {nombre}!";
     }
 }
 
