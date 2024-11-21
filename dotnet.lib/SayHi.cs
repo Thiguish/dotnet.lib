@@ -2,7 +2,11 @@
 
 public class SayHi
 {
-    public string SayHello(string nombre)
+    private SayHi()
+    {
+    }
+
+    public static string SayHello(string nombre)
     {
         return $"Hola, {nombre}!";
     }
