@@ -10,15 +10,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Setup .NET
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.x'
+
+      # GitVersion setup
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v3.0.3
+        with:
+          versionSpec: '6.x'
+      - name: Run GitVersion
+        id: gitVersion
+        uses: gittools/actions/gitversion/execute@v3.0.3
+        with:
+          useConfigFile: true
+          configFilePath: ./GitVersion.yml
+
+      # Build and Publish
       - name: Install dependencies
         run: dotnet restore
       - name: Build
         run: dotnet build --configuration Release --no-restore
       - name: Pack
-        run: dotnet pack --configuration Release --no-build --output ./nupkg
+        run: dotnet pack --configuration Release /p:Version=${{ steps.gitversion.outpuits.SemVer}} --no-build --output ./nupkg
       - name: Publish
         run: dotnet nuget push ./nupkg/*.nupkg --source https://nuget.pkg.github.com/Thiguish/index.json --api-key ${{ secrets.NUGET_TOKEN }}
