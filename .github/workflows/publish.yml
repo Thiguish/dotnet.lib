@@ -43,7 +43,15 @@ jobs:
       - name: Publish
         run: dotnet nuget push ./nupkg/*.nupkg --source https://nuget.pkg.github.com/Thiguish/index.json --api-key ${{ secrets.NUGET_TOKEN }}
 
+
+      - name: Check if the tag already exists
+        id: check_tag
+        run: |
+          TAG_EXISTS=$(git tag -l "v${{ steps.gitversion.outputs.SemVer}}")
+          echo "TAG_EXISTS=$TAG_EXISTS" >> $GITHUB_ENV
+
       - name: Increment version and tag
+        if: env.TAG_EXISTS == ''
         run: |
           VERSION=${{ steps.gitversion.outputs.SemVer}}
           echo "New version: $VERSION"
