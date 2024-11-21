@@ -15,5 +15,9 @@ public class SayHi
     {
         return $"Hi, {nombre}!";
     }
+    public static string DiBonDia(string nombre)
+    {
+        return $"Bon dia {nombre}!";
+    }
 }
 
