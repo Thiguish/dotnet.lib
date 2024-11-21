@@ -13,7 +13,7 @@ public class SayHi
 
     public static string SayHello(string nombre)
     {
-        return $"Hi, {nombre}!";
+        return $"Hi {nombre}!";
     }
     public static string DiBonDia(string nombre)
     {
