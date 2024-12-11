@@ -4,5 +4,15 @@ branches:
     regex: ^main$
     increment: Patch
     track-merge-target: true
+  release:
+    regex: ^release$
+    increment: Minor
+    track-merge-target: true
+  pull-request:
+    regex: ^pull/(merge|head).*
+    label: alpha-{PullrequestId}.Increment
+    increment: Minor
+    source-branches: ['main']
+    track-merge-target: true
 ignore:
   sha: []

@@ -29,17 +29,20 @@ jobs:
 
       # GitVersion setup
       - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v3.0.3
+        uses: gittools/actions/gitversion/setup@v3.1.1
         with:
-          versionSpec: '6.x'
+          versionSpec: '6.0.x'
       - name: Run GitVersion
         id: gitVersion
-        uses: gittools/actions/gitversion/execute@v3.0.3
+        uses: gittools/actions/gitversion/execute@v3.1.1
         with:
           useConfigFile: true
           configFilePath: ./GitVersion.yml
+          versionSpec: '6.0.x'
+      - name: Show git version
+        run: echo "$Version --> {{ steps.gitversion.outputs.SemVer }}"
       - name: Pack
-        run: dotnet pack --configuration Release /p:Version=${{ steps.gitversion.outputs.SemVer}} --no-build --output ./nupkg
+        run: dotnet pack --configuration Release /p:Version=${{ steps.gitversion.outputs.SemVer }} --no-build --output ./nupkg
       - name: Publish
         run: dotnet nuget push ./nupkg/*.nupkg --source https://nuget.pkg.github.com/Thiguish/index.json --api-key ${{ secrets.NUGET_TOKEN }}
 
@@ -47,13 +50,13 @@ jobs:
       - name: Check if the tag already exists
         id: check_tag
         run: |
-          TAG_EXISTS=$(git tag -l "v${{ steps.gitversion.outputs.SemVer}}")
+          TAG_EXISTS=$(git tag -l "v${{ steps.gitversion.outputs.SemVer }}")
           echo "TAG_EXISTS=$TAG_EXISTS" >> $GITHUB_ENV
 
       - name: Increment version and tag
         if: env.TAG_EXISTS == ''
         run: |
-          VERSION=${{ steps.gitversion.outputs.SemVer}}
+          VERSION=${{ steps.gitversion.outputs.SemVer }}
           echo "New version: $VERSION"
 
           # Crea un tag con la nueva versión
