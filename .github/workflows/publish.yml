@@ -43,7 +43,12 @@ jobs:
           configFilePath: ./GitVersion.yml
           versionSpec: '6.0.x'
       - name: Show git version
-        run: echo "Version --> ${{ steps.gitversion.outputs.SemVer }}"
+        run: |
+          echo "Version --> ${{ steps.gitversion.outputs.SemVer }}"
+          echo "${{ github.repository_owner }}"
+          echo "${{ github.event.pull_request.number }}"
+          echo "${{ github.run_id }}"
+  
       - name: Pack
         run: dotnet pack --configuration Release /p:Version=${{ steps.gitversion.outputs.SemVer }} --no-build --output ./nupkg
       - name: Publish
