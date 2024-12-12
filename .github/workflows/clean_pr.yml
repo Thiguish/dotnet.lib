@@ -17,12 +17,12 @@ jobs:
       - name: CleanUp Nugets
         run: |
 
-          PACKAGES=$(curl -s -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }}" "https://api.github.com/users/${{ github.repository_owner }}/packages/nuget/${{ github.repository##*/ }}/versions" | jq -r '.[].name')
           echo "${{ github.repository_owner }}"
           echo "${{ github.event.pull_request.number }}"
           echo "${{ github.repository }}"
           PROJECT=$(echo "${{ github.repository }}" | awk -F'/' '{print $2}')
           echo "Projecte: $PROJECT"
+          PACKAGES=$(curl -s -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }}" "https://api.github.com/users/${{ github.repository_owner }}/packages/nuget/$PROJECT/versions" | jq -r '.[].name')
 
           for PACKAGE in $PACKAGES; do
             echo "Working on package: $PACKAGE"
