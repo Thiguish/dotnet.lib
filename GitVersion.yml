@@ -7,11 +7,12 @@ branches:
   release:
     regex: ^release$
     increment: Minor
+    source-branches: ['main']
     track-merge-target: true
   pull-request:
     regex: ^pull/.*
-    label: alpha-{PullrequestId}
-    increment: Minor
+    label: alpha
+    increment: Patch
     source-branches: ['main']
     track-merge-target: true
 ignore:
