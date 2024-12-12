@@ -10,7 +10,7 @@ branches:
     track-merge-target: true
   pull-request:
     regex: ^pull/(merge|head).*
-    label: alpha-{PullrequestId}.Increment
+    label: alpha-{PullrequestId}
     increment: Minor
     source-branches: ['main']
     track-merge-target: true
