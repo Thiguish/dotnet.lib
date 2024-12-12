@@ -34,5 +34,10 @@ public class SayHi
     {
         return $"Bona nit {nombre}!";
     }
+
+    public static string SayGoodNigt(string nombre)
+    {
+        return $"Good night {nombre}!";
+    }
 }
 
