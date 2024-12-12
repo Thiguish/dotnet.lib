@@ -1,0 +1,31 @@
+name: Cleanup PR Tags and Adtifacts
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: CleanUp Nugets
+        env:
+          GITHUB_TOKEN: ${{ secrets.NUGET_TOKEN }}
+        run: |
+
+          PACKAGES=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" "https://api.github.com/orgs/${{ github.repository.owner }}/packages?package_type=nuget" | jq -r '.[].name')
+
+          for PACKAGE in $PACKAGES; do
+            curl -X DELETE -H "Authorization: Bearer $GITHUB_TOKEN" "https://api.github.com/orgs/${{ github.repository.owner }}/packages/nuget/$PACKAGE/versions" -s -o /dev/null
+          done
+
+      - name: CleanUp Tags
+        run: |
+
+          TAGS= $(git tag -l "")
