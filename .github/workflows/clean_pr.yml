@@ -17,11 +17,14 @@ jobs:
       - name: CleanUp Nugets
         run: |
 
-          PACKAGES=$(curl -s -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }} "https://api.github.com/orgs/${{ github.repository.owner }}/packages?package_type=nuget" | jq -r '.[].name')
-
+          PACKAGES=$(curl -s -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }} "https://api.github.com/orgs/${{ github.repository_owner }}/packages?package_type=nuget" | jq -r '.[].name')
+          echo "${{ github.repository_owner }}"
+          echo "${{ github.event.pull_request.number }}"
+          echo "${{ github.run_id }}"
+          
           for PACKAGE in $PACKAGES; do
             echo "Deleting package: $PACKAGE"
-            curl -X DELETE -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }} "https://api.github.com/orgs/${{ github.repository.owner }}/packages/nuget/$PACKAGE/versions" -s -o /dev/null
+            curl -X DELETE -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }} "https://api.github.com/orgs/${{ github.repository_owner }}/packages/nuget/$PACKAGE/versions" -s -o /dev/null
           done
 
       - name: CleanUp Tags
