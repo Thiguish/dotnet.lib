@@ -17,16 +17,16 @@ jobs:
       - name: CleanUp Nugets
         run: |
 
-          PACKAGES=$(curl -s -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }}" "https://api.github.com/users/${{ github.repository_owner }}/packages/nuget/versions" | jq -r '.[].name')
+          PACKAGES=$(curl -s -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }}" "https://api.github.com/users/${{ github.repository_owner }}/packages/nuget/${{ github.repository##*/ }}/versions" | jq -r '.[].name')
           echo "${{ github.repository_owner }}"
           echo "${{ github.event.pull_request.number }}"
-          echo "${{ github.run_id }}"
+          echo "${{ github.repository }}"
 
           for PACKAGE in $PACKAGES; do
             echo "Working on package: $PACKAGE"
             if [[ $PACKAGE == *"-alpha-${{ github.event.pull_request.number }}."* ]]; then
               echo "A borrar --> $PACKAGE"
-              # curl -X DELETE -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }}" "https://api.github.com/users/${{ github.repository_owner }}/packages/nuget/$PACKAGE/versions" -s -o /dev/null
+              # curl -X DELETE -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }}" "https://api.github.com/users/${{ github.repository_owner }}/packages/nuget/${{ github.repository }}/$PACKAGE" -s -o /dev/null
             else
               echo "A conserar --> $PACKAGE"
             fi
