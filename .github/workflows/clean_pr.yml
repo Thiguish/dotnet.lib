@@ -24,12 +24,11 @@ jobs:
           echo "Projecte: $PROJECT"
           PACKAGES=$(curl -s -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }}" "https://api.github.com/users/${{ github.repository_owner }}/packages/nuget/$PROJECT/versions" | jq -r '.[].name')
 
-
           for PACKAGE in $PACKAGES; do
             echo "Working on package: $PACKAGE"
             if [[ $PACKAGE == *"-alpha-${{ github.event.pull_request.number }}."* ]]; then
               echo "A borrar --> $PACKAGE"
-              # curl -X DELETE -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }}" "https://api.github.com/users/${{ github.repository_owner }}/packages/nuget/$PROJECT/$PACKAGE" -s -o /dev/null
+              curl -X DELETE -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }}" "https://api.github.com/users/${{ github.repository_owner }}/packages/nuget/$PROJECT/$PACKAGE" -s -o /dev/null
             else
               echo "A conserar --> $PACKAGE"
             fi
@@ -37,7 +36,7 @@ jobs:
 
       - name: CleanUp Tags
         run: |
-
+          git fetch --tags
           TAGS=$(git tag -l "*-alpha-${{ github.event.pull_request.number }}.*")
           for TAG in TAGS; do
             echo "Deleting tag: $TAG"
