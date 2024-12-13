@@ -35,7 +35,7 @@ public class SayHi
         return $"Bona nit {nombre}!";
     }
 
-    public static string SayGoodNigt(string nombre)
+    public static string SayGoodNight(string nombre)
     {
         return $"Good night {nombre}!";
     }
