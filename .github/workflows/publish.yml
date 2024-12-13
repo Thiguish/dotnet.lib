@@ -50,6 +50,29 @@ jobs:
           PROJECT=$(echo "${{ github.repository }}" | awk -F'/' '{print $2}')
           echo "Projecte: $PROJECT"
 
+      - name: CleanUp Nugets
+        run: |
+
+          echo "${{ github.repository_owner }}"
+          echo "${{ github.event.pull_request.number }}"
+          echo "${{ github.repository }}"
+          PROJECT=$(echo "${{ github.repository }}" | awk -F'/' '{print $2}')
+          echo "Projecte: $PROJECT"
+          URL="https://api.github.com/users/${{ github.repository_owner }}/packages/nuget/$PROJECT/versions"
+          echo "$URL"
+
+          PACKAGES=$(curl -L -H "X-GitHub-Api-Version: 2022-11-28"  -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }}" $URL | jq -c '.[]')
+          echo "$PACKAGES"
+
+          for PACKAGE in $PACKAGES; do
+            VERSION_NAME=$(echo "$PACKAGE" | jq -r '.name')
+            VERSION_ID=$(echo "$PACKAGE" | jq -r '.id')
+            if [[ $VERSION_NAME == *"-alpha-${{ github.event.pull_request.number }}."* ]]; then
+              echo "A borrar --> $VERSION_NAME with $VERSION_ID ID"
+            else
+              echo "A conserar --> $VERSION_NAME"
+            fi
+          done
       - name: Pack
         run: dotnet pack --configuration Release /p:Version=${{ steps.gitversion.outputs.SemVer }} --no-build --output ./nupkg
       - name: Publish
