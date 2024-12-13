@@ -3,6 +3,7 @@ branches:
   main:
     regex: ^main$
     increment: Patch
+    is-release-branch: true
   release:
     regex: ^release$
     increment: Minor
@@ -11,6 +12,7 @@ branches:
     regex: ^pull/.*
     label: alpha-
     increment: none
+    is-release-branch: false
     source-branches: ['main']
 ignore:
   sha: []
