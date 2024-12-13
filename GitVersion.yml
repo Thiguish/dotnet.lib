@@ -3,16 +3,18 @@ branches:
   main:
     regex: ^main$
     increment: Patch
-    is-release-branch: true
+    is-release-branch: false
   release:
     regex: ^release$
     increment: Minor
     is-release-branch: true
+    tracks-release-branches: false
   pull-request:
     regex: ^pull/.*
     label: alpha-
     increment: none
     is-release-branch: false
+    tracks-release-branches: false
     source-branches: ['main']
 ignore:
   sha: []
