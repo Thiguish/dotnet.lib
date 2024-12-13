@@ -3,12 +3,11 @@ branches:
   main:
     regex: ^main$
     increment: Patch
-    track-merge-target: true
   release:
     regex: ^release$
     increment: Minor
     source-branches: ['main']
-    track-merge-target: true
+    label: ''
   pull-request:
     regex: ^pull/.*
     label: alpha-
