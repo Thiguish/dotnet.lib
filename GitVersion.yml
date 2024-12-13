@@ -12,6 +12,7 @@ branches:
   pull-request:
     regex: ^pull/.*
     label: alpha-
+    increment: none
     source-branches: ['main']
     track-merge-target: true
 ignore:
