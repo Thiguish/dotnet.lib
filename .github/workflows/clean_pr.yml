@@ -46,7 +46,7 @@ jobs:
           git remote set-url origin https://${{ secrets.NUGET_TOKEN }}@github.com/${{ github.repository_owner }}/$PROJECT
           git fetch --tags
           TAGS=$(git tag -l "*-alpha-${{ github.event.pull_request.number }}.*")
-          for TAG in TAGS; do
+          for TAG in $TAGS; do
             echo "Deleting tag: $TAG"
-            # git push origin --delete $TAG
+            git push origin --delete $TAG
           done
