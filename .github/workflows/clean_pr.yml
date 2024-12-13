@@ -25,7 +25,7 @@ jobs:
           URL="https://api.github.com/users/${{ github.repository_owner }}/packages/nuget/$PROJECT/versions"
           echo "$URL"
 
-          PACKAGES=$(curl -L -H "X-GitHub-Api-Version: 2022-11-28"  -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }}" $URL | jq -c '.[]')
+          PACKAGES=$(curl -s -L -H "X-GitHub-Api-Version: 2022-11-28"  -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }}" $URL | jq -c '.[]')
 
           for PACKAGE in $PACKAGES; do
             VERSION_NAME=$(echo "$PACKAGE" | jq -r '.name')
@@ -33,7 +33,8 @@ jobs:
             if [[ $VERSION_NAME == *"-alpha-${{ github.event.pull_request.number }}."* ]]; then
               echo "A borrar --> $VERSION_NAME with $VERSION_ID ID"
               DELETE_URL="$URL/$VERSION_ID"
-              curl -X DELETE "X-GitHub-Api-Version: 2022-11-28"  -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }}" "$DELETE_URL"
+              echo "$DELETE_URL"
+              curl -s -X DELETE "X-GitHub-Api-Version: 2022-11-28"  -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }}" "$DELETE_URL"
             else
               echo "A conserar --> $VERSION_NAME"
             fi
@@ -42,7 +43,7 @@ jobs:
       - name: CleanUp Tags
         run: |
           PROJECT=$(echo "${{ github.repository }}" | awk -F'/' '{print $2}')
-          git remote set-url origin https://${{ secrets.NUGET_TOKEN }}@github.comn/${{ github.repository_owner }}/$PROJECT
+          git remote set-url origin https://${{ secrets.NUGET_TOKEN }}@github.com/${{ github.repository_owner }}/$PROJECT
           git fetch --tags
           TAGS=$(git tag -l "*-alpha-${{ github.event.pull_request.number }}.*")
           for TAG in TAGS; do
