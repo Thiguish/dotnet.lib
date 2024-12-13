@@ -6,8 +6,6 @@ branches:
   release:
     regex: ^release$
     increment: Minor
-    source-branches: ['main']
-    label: ''
   pull-request:
     regex: ^pull/.*
     label: alpha-
