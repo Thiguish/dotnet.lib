@@ -43,10 +43,12 @@ jobs:
       - name: CleanUp Tags
         run: |
           PROJECT=$(echo "${{ github.repository }}" | awk -F'/' '{print $2}')
-          git remote set-url origin https://${{ secrets.NUGET_TOKEN }}@github.com/${{ github.repository_owner }}/$PROJECT
+          URL="https://api.github.com/users/${{ github.repository_owner }}/$PROJECT/git/refs/tags/"
           git fetch --tags
           TAGS=$(git tag -l "*-alpha-${{ github.event.pull_request.number }}.*")
           for TAG in $TAGS; do
             echo "Deleting tag: $TAG"
-            git push origin --delete $TAG
+            DELETE_URL="$URL/$TAG"
+            echo "$DELETE_URL"
+            curl -s -X DELETE "X-GitHub-Api-Version: 2022-11-28"  -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }}" "$DELETE_URL"
           done
