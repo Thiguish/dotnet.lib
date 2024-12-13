@@ -22,15 +22,14 @@ jobs:
           echo "${{ github.repository }}"
           PROJECT=$(echo "${{ github.repository }}" | awk -F'/' '{print $2}')
           echo "Projecte: $PROJECT"
-          echo "curl -s -H 'Authorization: Bearer ${{ secrets.NUGET_TOKEN }}' 'https://api.github.com/users/${{ github.repository_owner }}/packages/nuget/$PROJECT/versions' | jq -r '.[].name'"
-          PACKAGES=$(curl -s -H 'Authorization: Bearer ${{ secrets.NUGET_TOKEN }}' 'https://api.github.com/users/${{ github.repository_owner }}/packages/nuget/$PROJECT/versions' | jq -r '.[].name')
+          echo curl -s -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }}" "https://api.github.com/users/${{ github.repository_owner }}/packages/nuget/$PROJECT/versions" | jq -r '.[].name'
+          PACKAGES=$(curl -s -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }}" "https://api.github.com/users/${{ github.repository_owner }}/packages/nuget/$PROJECT/versions" | jq -r '.[].name')
 
           for PACKAGE in $PACKAGES; do
             echo "Working on package: $PACKAGE"
             if [[ $PACKAGE == *"-alpha-${{ github.event.pull_request.number }}."* ]]; then
               echo "A borrar --> $PACKAGE"
-              curl -X DELETE -H "
-               "https://api.github.com/users/${{ github.repository_owner }}/packages/nuget/$PROJECT/$PACKAGE" -s -o /dev/null
+              curl -X DELETE -H "Authorization: Bearer ${{ secrets.NUGET_TOKEN }}" "https://api.github.com/users/${{ github.repository_owner }}/packages/nuget/$PROJECT/$PACKAGE" -s -o /dev/null
             else
               echo "A conserar --> $PACKAGE"
             fi
