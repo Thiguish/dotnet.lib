@@ -48,5 +48,9 @@ public class SayHi
     {
         return $"Hola!";
     }
+    public static string DiSalut()
+    {
+        return $"Salut!";
+    }
 }
 
