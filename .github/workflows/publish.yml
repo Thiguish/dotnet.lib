@@ -45,10 +45,6 @@ jobs:
       - name: Show git version
         run: |
           echo "Version --> ${{ steps.gitversion.outputs.SemVer }}"
-          echo "${{ github.repository_owner }}"
-          echo "${{ github.event.pull_request.number }}"
-          PROJECT=$(echo "${{ github.repository }}" | awk -F'/' '{print $2}')
-          echo "Projecte: $PROJECT"
 
       - name: Pack
         run: dotnet pack --configuration Release /p:Version=${{ steps.gitversion.outputs.SemVer }} --no-build --output ./nupkg

@@ -39,5 +39,10 @@ public class SayHi
     {
         return $"Good night {nombre}!";
     }
+
+    public static string SayHello()
+    {
+        return $"Hello!";
+    }
 }
 

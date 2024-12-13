@@ -43,7 +43,7 @@ jobs:
       - name: CleanUp Tags
         run: |
           PROJECT=$(echo "${{ github.repository }}" | awk -F'/' '{print $2}')
-          URL="https://api.github.com/users/${{ github.repository_owner }}/$PROJECT/git/refs/tags"
+          URL="https://api.github.com/repos/${{ github.repository_owner }}/$PROJECT/git/refs/tags"
           git fetch --tags
           TAGS=$(git tag -l "*-alpha-${{ github.event.pull_request.number }}.*")
           for TAG in $TAGS; do
