@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Nuget experiment")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bc2231346b3074171632f75230e22aa118af2777")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+94fae1c8ccbf3f543f72737973a286089fdfa5be")]
 [assembly: System.Reflection.AssemblyProductAttribute("dotnet.lib")]
 [assembly: System.Reflection.AssemblyTitleAttribute("dotnet.lib")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
