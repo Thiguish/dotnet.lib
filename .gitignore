@@ -1,3 +1,70 @@
-[Dd]ebug/
-[Oo]bj/
-[Bb]in/
+# Archivos binarios, compilación y dependencias
+bin/
+obj/
+out/
+*.exe
+*.dll
+*.so
+*.dylib
+*.pdb
+*.log
+
+# Archivos de usuario y configuración de IDE
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Archivos de paquetes y dependencias
+packages/
+!packages/**/*.md
+.nuget/
+.project.lock.json
+*.nuget.props
+*.nuget.targets
+
+# Archivos de configuración de depuración y lanzamiento
+launchSettings.json
+
+# Caché de NuGet
+**/project.lock.json
+**/project.assets.json
+.nuget/
+
+# Configuración de Rider / Resharper
+*.sln.DotSettings.user
+*.sln.DotSettings
+
+# Archivos generados por la herramienta de análisis de cobertura de código
+coverage/
+*.coverage
+*.coveragexml
+TestResults/
+
+# Configuración específica de sistemas operativos
+.DS_Store
+Thumbs.db
+
+# Archivos de logs y temporales
+*.log
+*.tmp
+*.bak
+*.swp
+
+# Archivos generados por Docker y Kubernetes
+docker-compose.override.yml
+docker-compose.*.override.yml
+
+# Certificados de desarrollo
+*.pfx
+*.p12
+
+# Configuración de usuario para dotnet tools
+.dotnet-tools/
+
+# Archivos secretos o configuraciones locales
+secrets.json
+appsettings.Development.json
+appsettings.Local.json
